@@ -24,16 +24,15 @@ int main()
 
 	float av_time = 0;
 
-	for (int i = 0; i < 10; i++)//1000 реализаций 
+	for (int i = 0; i < 1000; i++)//1000 реализаций 
 	{
 		//T0 = 0;
-		while (T0 < 10) //работа на интервале от 0 до 1000
+		while (T0 < 1000) //работа на интервале от 0 до 1000
 		{
 			//cout << "T0 " << T0 << " time: " << time <<" n: "<<n<< endl;
 			T0 = T0 + mod_exp(lambda); //моделируем приход новой заявки 
-			if (T0 < 10) //если пришла до 1000 сек
+			if (T0 < 1000) //если пришла до 1000 сек
 			{
-				//cout << "kek "<< i<< "   TO   "<<T0 << endl;
 				int j = 0;
 				int num = 0;
 				bool flag = false;
@@ -59,7 +58,7 @@ int main()
 				else if (flag  && (!wait.empty())) //если есть свободный канал, есть заявка в очереди  
 				
 				{
-					cout << "CHECK: " << T0 << endl;
+					//cout << "CHECK: " << T0 << endl;
 					T[num] = T0 + mod_exp(mu);//идет на обслуживание заявка из очереди
 					time = time + (T0 - wait[0]);
 					wait.erase(wait.begin());
@@ -76,22 +75,20 @@ int main()
 			else
 			{
 				T0 = 0;
-				n = n - wait.size();
+				n = n - wait.size();//избавляемся от заявок, которые не обработали 
 				wait.erase(wait.begin(), wait.end());
 				break;
 			}
-			//cout << n << endl;
-			/*for (int g = 0; g < wait.size(); g++)
-				time = time + 1000 - wait[g];*/
+
 		}
-		//if (!wait.empty()) {
-		//	for (int g = 0; g < wait.size(); g++) {
-		//		//cout << "wait: " << wait[g] <<"   "<<wait.size() << endl;
-		//		//cout << "Time: " << time << " T0: " << T0 << " wait[g]: " << wait[g] << endl;
-		//		time = time + (1000 - wait[g]);
-		//		//cout << time << endl;
-		//	}
-		//}
+		if (!wait.empty()) {
+			for (int g = 0; g < wait.size(); g++) {
+				//cout << "wait: " << wait[g] <<"   "<<wait.size() << endl;
+				//cout << "Time: " << time << " T0: " << T0 << " wait[g]: " << wait[g] << endl;
+				time = time + (1000 - wait[g]);
+				//cout << time << endl;
+			}
+		}
 		//T0 = 0;
 		//cout << "n: " << n << " size: " << wait.size() << endl;
 		//n = n - wait.size();
@@ -122,4 +119,5 @@ float  FloatRand(float _max, float _min)
 {
 	return _min + float(rand()) / RAND_MAX * (_max - _min);
 }
+
 
